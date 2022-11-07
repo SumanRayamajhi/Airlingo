@@ -1,17 +1,16 @@
 import { GoogleLogout } from "react-google-login";
-
-const clientId =
-  "105326754209-e02pui1mlhb6u0ud4v0g3itvr5iip624.apps.googleusercontent.com";
+import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
+  const navigate = useNavigate();
   const onSuccess = (res) => {
-    console.log("Logout Success!");
+    navigate("/");
   };
 
   return (
     <div>
       <GoogleLogout
-        clientId={clientId}
+        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
         buttonText="Logout"
         onLogoutSuccess={onSuccess}
       />
