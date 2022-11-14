@@ -1,9 +1,12 @@
 import { GoogleLogout } from "react-google-login";
 import { useNavigate } from "react-router-dom";
+import { AIRLINGO_ACCESS_TOKEN } from "../constants/contants";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const onSuccess = (res) => {
+
+  const onSuccess = () => {
+    localStorage.removeItem(AIRLINGO_ACCESS_TOKEN);
     navigate("/");
   };
 
