@@ -43,7 +43,7 @@ function App() {
 }
 
 function loader() {
-  // let test = Date.now() % 2 === 0 ? "test" : "";
+  //let test = Date.now() % 2 === 0 ? "test" : "";
   if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN)) {
     return fetch(API_URL, {
       headers: {
