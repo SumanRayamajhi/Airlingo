@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ChatPage from "../src/components/Message/ChatPage";
 import { gapi } from "gapi-script";
 import {
   useLocation,
@@ -6,8 +7,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Home from "./components/Home";
-import UserProfile from "./components/UserProfile";
+import Home from "./components/Home/Home";
+import UserProfile from "./components/UserProfile/UserProfile";
 import { AIRLINGO_ACCESS_TOKEN, API_URL } from "./constants/contants";
 import TryAgain from "./components/TryAgain";
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     ),
     errorElement: <TryAgain />,
   },
+  {
+    path: "/chatPage",
+    element: <ChatPage />,
+  },
 ]);
 
 function App() {
@@ -43,11 +48,10 @@ function App() {
 }
 
 function loader() {
-  //let test = Date.now() % 2 === 0 ? "test" : "";
   if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN)) {
-    return fetch(API_URL, {
+    return fetch(`${API_URL}/api/topics`, {
       headers: {
-        Authorization: localStorage.getItem(AIRLINGO_ACCESS_TOKEN),
+        Authorization: `Bearer ${localStorage.getItem(AIRLINGO_ACCESS_TOKEN)}`,
       },
     });
   }
