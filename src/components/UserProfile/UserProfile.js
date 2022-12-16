@@ -85,7 +85,10 @@ const UserProfile = () => {
                 </div>
 
                 <div
-                  onClick={navigate("/chatPage")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate(`/chatPage/${user.id}`);
+                  }}
                   className="userProfile_checkIn"
                 >
                   <div className="check-in">

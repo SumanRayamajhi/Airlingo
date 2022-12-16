@@ -1,8 +1,7 @@
-import ChatMessageInput from "./ChatMessageInput";
+import { useLoaderData } from "react-router-dom";
 
 const ChatPage = () => {
-  <div>
-    <ChatMessageInput />
-  </div>;
+  const data = useLoaderData();
+  console.log(data);
 };
 export default ChatPage;

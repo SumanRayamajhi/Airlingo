@@ -28,8 +28,14 @@ const router = createBrowserRouter([
     errorElement: <TryAgain />,
   },
   {
-    path: "/chatPage",
-    element: <ChatPage />,
+    path: "/chatPage/:topicId",
+    loader: chatPageLoader,
+    element: (
+      <RequireAuth>
+        <ChatPage />
+      </RequireAuth>
+    ),
+    errorElement: <TryAgain />,
   },
 ]);
 
@@ -50,6 +56,16 @@ function App() {
 function loader() {
   if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN)) {
     return fetch(`${API_URL}/api/topics`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(AIRLINGO_ACCESS_TOKEN)}`,
+      },
+    });
+  }
+}
+
+function chatPageLoader({ params }) {
+  if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN)) {
+    return fetch(`${API_URL}/api/topics/${params.topicId}/messages`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem(AIRLINGO_ACCESS_TOKEN)}`,
       },
