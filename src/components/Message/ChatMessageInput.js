@@ -5,18 +5,27 @@ import { AIRLINGO_ACCESS_TOKEN, API_URL } from "../../constants/contants";
 
 const ChatMessageInput = () => {
   const data = useLoaderData();
+  console.log(data);
+
+  const lastMessages =
+    data.messages[data.messages.length - 1].type !== "FromUser";
+  console.log(lastMessages);
+  const text = data?.messages?.map((topic) => topic.text);
+  // const text = textTopic.toString();
+  // console.log(textTopic);
 
   const { topicId } = useParams();
 
   console.log("topicId..", topicId);
+  console.log("text..", text);
 
   const [content, setContent] = useState("");
 
-  const onSubmitMessage = (e, text) => {
+  const onSubmitMessage = (e) => {
     e.preventDefault();
     console.log("topicid", topicId);
-    console.log("text", text);
-    if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN)) {
+
+    if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN) && lastMessages) {
       return fetch(`${API_URL}/api/topics/${topicId}/messages`, {
         method: "POST",
         headers: {
@@ -24,6 +33,7 @@ const ChatMessageInput = () => {
           Authorization: `Bearer ${localStorage.getItem(
             AIRLINGO_ACCESS_TOKEN
           )}`,
+
           body: JSON.stringify({
             text: text,
             content: content,
@@ -34,21 +44,19 @@ const ChatMessageInput = () => {
     setContent("");
   };
 
-  if (data.messages[data.messages.length - 1].type) {
-    return (
-      <Form onSubmit={onSubmitMessage}>
-        <InputGroup>
-          <FormControl
-            placeholder="Write a message"
-            aria-label="Write a message"
-            aria-describedby="basic-addon2"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </InputGroup>
-      </Form>
-    );
-  }
+  return (
+    <Form onSubmit={onSubmitMessage}>
+      <InputGroup>
+        <FormControl
+          placeholder="Write a message"
+          aria-label="Write a message"
+          aria-describedby="basic-addon2"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+      </InputGroup>
+    </Form>
+  );
 };
 
 export default ChatMessageInput;
