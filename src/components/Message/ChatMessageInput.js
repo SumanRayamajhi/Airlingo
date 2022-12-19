@@ -1,61 +1,57 @@
 import { useState } from "react";
-import { Form, FormControl, InputGroup } from "react-bootstrap";
-import { useLoaderData, useParams } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+// import { Form, FormControl, InputGroup } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import { AIRLINGO_ACCESS_TOKEN, API_URL } from "../../constants/contants";
+import "bootstrap/dist/css/bootstrap.css";
+import "./ChatMessageInput.css";
 
-const ChatMessageInput = () => {
-  const data = useLoaderData();
-  console.log(data);
-
-  const lastMessages =
-    data.messages[data.messages.length - 1].type !== "FromUser";
-  console.log(lastMessages);
-  const text = data?.messages?.map((topic) => topic.text);
-  // const text = textTopic.toString();
-  // console.log(textTopic);
-
+const ChatMessageInput = ({ data, onMessagePost }) => {
   const { topicId } = useParams();
 
-  console.log("topicId..", topicId);
-  console.log("text..", text);
+  const lastMessage =
+    data.messages[data.messages.length - 1]?.type !== "FromUser";
+  console.log(lastMessage);
 
   const [content, setContent] = useState("");
 
-  const onSubmitMessage = (e) => {
+  const onSubmitMessage = async (e) => {
     e.preventDefault();
-    console.log("topicid", topicId);
 
-    if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN) && lastMessages) {
-      return fetch(`${API_URL}/api/topics/${topicId}/messages`, {
+    const body = { text: content };
+
+    if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN) && lastMessage) {
+      const resp = await fetch(`${API_URL}/api/topics/${topicId}/messages`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem(
             AIRLINGO_ACCESS_TOKEN
           )}`,
-
-          body: JSON.stringify({
-            text: text,
-            content: content,
-          }),
         },
+        body: JSON.stringify(body),
       });
+      onMessagePost();
     }
     setContent("");
   };
 
   return (
-    <Form onSubmit={onSubmitMessage}>
-      <InputGroup>
-        <FormControl
-          placeholder="Write a message"
-          aria-label="Write a message"
-          aria-describedby="basic-addon2"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </InputGroup>
-    </Form>
+    <>
+      <Form onSubmit={onSubmitMessage}>
+        <InputGroup className="mb-3 mt-5 bg-dark overflow-hidden ">
+          <Form.Control
+            className="bg-dark border-0 px-3 text-light fs-4 bg-transparent"
+            placeholder="Write a message"
+            aria-label="Write a message"
+            aria-describedby="basic-addon2"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </InputGroup>
+      </Form>
+    </>
   );
 };
 

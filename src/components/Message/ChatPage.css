@@ -23,3 +23,8 @@
   border: none;
   color: #fff !important;
 }
+
+.ChatMessageInputField {
+  width: 100%;
+  height: 100px;
+}
