@@ -1,3 +1,7 @@
+.ChatPage_Container {
+  height: 100%;
+  padding-top: 1rem;
+}
 .actual-message-container {
   width: 70%;
   margin: 10px;
@@ -44,13 +48,7 @@
   max-height: 10rem;
   padding: 15px;
 }
-.PopoverSentiment {
-  background: "#00ace6";
-  padding: "15px";
-  border-radius: "7px";
-  font-weight: "bold";
-  font-size: "1.5rem";
-}
+
 .deleteButton {
   width: 100%;
   position: fixed;

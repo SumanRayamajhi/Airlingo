@@ -20,6 +20,17 @@
   background-size: cover;
   height: 13rem;
 }
-.TitlesPage_fullLession {
-  font-weight: bold;
+
+.topics_group {
+  column-count: 2;
+  column-gap: 1.2rem;
+  padding: 1.2rem;
+}
+
+.topics_group h4 {
+  height: 7rem;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -9,7 +9,7 @@ const TitlesPage = () => {
   return (
     <div>
       {data?.topics?.map((user) => (
-        <div className="userProfile_streak">
+        <div key={user.id}>
           <div className="TitlesPage_fullLession">
             <div
               className="TitlesPage_background_image"
@@ -17,12 +17,26 @@ const TitlesPage = () => {
             >
               <h3 className="TitlesPage_essentials">The essentials</h3>
             </div>
-            <div>
+            <div className="topics_group">
               <h4 style={{ background: "#E6A084" }}>Greetings</h4>
-              <h4 style={{ background: "#EEDAC0" }}>{user.name}</h4>
-              <h4 style={{ background: "#256AA5" }}>Reservation</h4>
+
+              <h4 style={{ background: "#256AA5", color: "#fff" }}>
+                Reservation
+              </h4>
               <h4 style={{ background: "#4CAABC" }}>Check out</h4>
-              <h4 style={{ background: "#11273E" }}>Information</h4>
+              <h4
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/chatPage/${user.id}`);
+                }}
+                style={{ background: "#EEDAC0" }}
+              >
+                {user.name}
+              </h4>
+
+              <h4 style={{ background: "#11273E", color: "#fff" }}>
+                Information
+              </h4>
               <h4 style={{ background: "#C4DDE8" }}>Room problems</h4>
             </div>
           </div>
