@@ -3,8 +3,9 @@ import { Form, InputGroup } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { AIRLINGO_ACCESS_TOKEN, API_URL } from "../../constants/contants";
 import "bootstrap/dist/css/bootstrap.css";
+import Loader from "../Loader/Loader";
 
-const ChatMessageInput = ({ data, onMessagePost }) => {
+const ChatMessageInput = ({ data, onMessagePost, setIsLoading }) => {
   const { topicId } = useParams();
 
   const lastMessage =
@@ -14,6 +15,7 @@ const ChatMessageInput = ({ data, onMessagePost }) => {
 
   const onSubmitMessage = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const body = { text: content };
 
@@ -31,6 +33,7 @@ const ChatMessageInput = ({ data, onMessagePost }) => {
       onMessagePost();
     }
     setContent("");
+    setIsLoading(false);
   };
 
   return (

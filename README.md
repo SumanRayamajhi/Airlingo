@@ -1,5 +1,3 @@
-Task no. 1 - link merics
-Task no. 2 - change Information field
-Task no. 2 - change delete button
-Task no. 3 - change dpage to topics
-Task no. 4 - Loading
+Task no. 1 - OAuth 2 workflow to authenticate users.
+Task no. 2 - Fetch API with Authorization(Access_Token).
+Task no. 3 - Create chat room using Get, Post and Delete API.

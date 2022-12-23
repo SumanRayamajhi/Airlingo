@@ -8,16 +8,19 @@ import Button from "react-bootstrap/Button";
 import Overlay from "react-bootstrap/Overlay";
 import Popover from "react-bootstrap/Popover";
 import "./ChatPage.css";
+import Loader from "../Loader/Loader";
 
 const ChatPage = () => {
   // const data = useLoaderData()
   const [data, setData] = useState({ messages: [] });
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const ref = useRef(null);
   const { topicId } = useParams();
 
   const getData = async () => {
+    setIsLoading(true);
     if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN)) {
       const resp = await fetch(`${API_URL}/api/topics/${topicId}/messages`, {
         headers: {
@@ -28,6 +31,17 @@ const ChatPage = () => {
       });
       const data = await resp.json();
       setData(data);
+    }
+    setIsLoading(false);
+  };
+
+  const renderLoading = () => {
+    if (isLoading) {
+      return (
+        <div>
+          <Loader />
+        </div>
+      );
     }
   };
 
@@ -146,11 +160,15 @@ const ChatPage = () => {
             </div>
           </div>
         ))}
+        {renderLoading()}
       </div>
       <ChatMessageInput
         className="ChatMessageInputField"
         data={data}
         onMessagePost={() => getData()}
+        renderLoading={renderLoading()}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
 
       {data?.messages?.map((topic) => (
