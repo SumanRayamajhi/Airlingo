@@ -9,7 +9,6 @@ const ChatMessageInput = ({ data, onMessagePost }) => {
 
   const lastMessage =
     data?.messages[data.messages.length - 1]?.type !== "FromUser";
-  console.log(lastMessage);
 
   const [content, setContent] = useState("");
 
@@ -39,8 +38,15 @@ const ChatMessageInput = ({ data, onMessagePost }) => {
       {!lastMessage ? (
         ""
       ) : (
-        <Form onSubmit={onSubmitMessage}>
-          <InputGroup className="mb-3 mt-5 bg-dark overflow-hidden ">
+        <Form
+          onSubmit={onSubmitMessage}
+          style={{
+            position: "fixed",
+            bottom: "2px",
+            width: "100%",
+          }}
+        >
+          <InputGroup className="mb-3 mt-5 bg-dark overflow-hidden">
             <Form.Control
               className="bg-dark border-0 px-3 text-light fs-4 bg-transparent form-control"
               placeholder="Write a message"

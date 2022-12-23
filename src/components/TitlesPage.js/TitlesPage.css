@@ -1,0 +1,25 @@
+.titlesPage_checkIn {
+  background: #ffffff;
+  box-shadow: 2px 4px 4px rgba(92, 92, 92, 0.25);
+  border-radius: 7px;
+  padding: 1.4rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12rem;
+  cursor: pointer;
+}
+.TitlesPage_background_image {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 13rem;
+}
+.TitlesPage_fullLession {
+  font-weight: bold;
+}

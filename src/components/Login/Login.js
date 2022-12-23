@@ -1,18 +1,18 @@
 import { GoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
 import { AIRLINGO_ACCESS_TOKEN } from "../../constants/contants";
-import "./Login.css"
+import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
 
   const onSuccess = (res) => {
-    console.log(JSON.stringify(res))
+    console.log(JSON.stringify(res));
     localStorage.setItem(
       AIRLINGO_ACCESS_TOKEN,
       res.getAuthResponse().access_token
     );
-    navigate("/userProfile");
+    navigate("/titlesPage");
   };
 
   const onFailure = (res) => {

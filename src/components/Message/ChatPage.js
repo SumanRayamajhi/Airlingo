@@ -16,7 +16,7 @@ const ChatPage = () => {
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
   const { topicId } = useParams();
-
+  console.log(data);
   const getData = async () => {
     if (localStorage.getItem(AIRLINGO_ACCESS_TOKEN)) {
       const resp = await fetch(`${API_URL}/api/topics/${topicId}/messages`, {
@@ -56,24 +56,18 @@ const ChatPage = () => {
   };
 
   return (
-    <div>
+    <div style={{ height: "100%", background: "green" }}>
       {data?.messages?.map((topic) => (
         <div key={topic.id}>
           <div
             className={
-              topic.type !== "FromUser"
-                ? "actual-message-container all"
-                : "onRight all"
+              topic.type === "FromUser"
+                ? "onRight all"
+                : topic.type === "Information"
+                ? "onCenter all"
+                : "actual-message-container all"
             }
           >
-            <TiDelete
-              style={{
-                height: "2rem",
-                width: "2rem",
-                color: "white",
-              }}
-              onClick={() => deleteMessage(topic.id)}
-            />
             {topic.type === "FromUser" ? (
               <div ref={ref}>
                 <div style={{ cursor: "pointer" }} onClick={popover}>
@@ -83,7 +77,7 @@ const ChatPage = () => {
                   <Overlay
                     show={show}
                     target={target}
-                    placement="bottom"
+                    placement="top"
                     container={ref}
                     containerPadding={20}
                   >
@@ -95,6 +89,7 @@ const ChatPage = () => {
                         overflow: "hidden",
                         borderRadius: "7px",
                         fontSize: "1.5rem",
+                        width: "20rem",
                       }}
                     >
                       <Popover.Header
@@ -102,17 +97,16 @@ const ChatPage = () => {
                         style={{
                           background: "#00ace6",
                           padding: "15px",
-                          borderRadius: "#7px",
-                          width: "100%",
+                          borderRadius: "7px",
                           fontWeight: "bold",
                           fontSize: "1.5rem",
                         }}
                       >
-                        May be you are trying to say
+                        {data.messages[1].metrics.sentiment}
                       </Popover.Header>
-                      <Popover.Body style={{ height: "5rem", padding: "15px" }}>
+                      <Popover.Body className="ChatPage_PopoverBody">
                         <strong>
-                          Please wait, I will look for your reservation
+                          {data.messages[1].metrics["general-recommendations"]}
                         </strong>
                       </Popover.Body>
                       <GiSpeaker
@@ -128,12 +122,17 @@ const ChatPage = () => {
                           background: "",
                         }}
                       >
-                        <strong>Let's try! your turn now</strong>
+                        <p>Let's try! your turn now</p>
                       </Popover.Body>
                     </Popover>
-                  </Overlay>{" "}
+                  </Overlay>
                 </div>
               </div>
+            ) : topic.type === "Information" ? (
+              <>
+                <h3 style={{ fontWeight: "bold" }}>{topic.type}</h3>
+                <p style={{ color: "#000" }}>{topic.text}</p>
+              </>
             ) : (
               <>
                 <h2>{topic.type}</h2>
@@ -142,14 +141,20 @@ const ChatPage = () => {
               </>
             )}
           </div>
+
+          <ChatMessageInput
+            className="ChatMessageInputField"
+            data={data}
+            onMessagePost={() => getData()}
+          />
+          <button
+            onClick={() => deleteMessage(topic.id)}
+            className="deleteButton"
+          >
+            Delete all messages!
+          </button>
         </div>
       ))}
-
-      <ChatMessageInput
-        className="ChatMessageInputField"
-        data={data}
-        onMessagePost={() => getData()}
-      />
     </div>
   );
 };

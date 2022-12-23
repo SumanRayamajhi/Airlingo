@@ -8,9 +8,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Home from "./components/Home/Home";
-import UserProfile from "./components/UserProfile/UserProfile";
 import { AIRLINGO_ACCESS_TOKEN, API_URL } from "./constants/contants";
 import TryAgain from "./components/TryAgain";
+import TitlesPage from "./components/TitlesPage.js/TitlesPage";
 
 const router = createBrowserRouter([
   {
@@ -18,11 +18,11 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/userProfile",
+    path: "/titlesPage",
     loader,
     element: (
       <RequireAuth>
-        <UserProfile />
+        <TitlesPage />
       </RequireAuth>
     ),
     errorElement: <TryAgain />,
